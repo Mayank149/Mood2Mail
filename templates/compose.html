@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Compose Email - Mood2Mail{% endblock %}
+
+{% block content %}
+<div class="email-container">
+    <div class="email-header">
+        <h2 class="email-title">Compose Email</h2>
+    </div>
+    
+    <form id="email-form">
+        <div class="form-group email-to">
+            <input type="email" id="email-to" class="form-control" placeholder="To" required>
+        </div>
+        
+        <div class="form-group">
+            <input type="text" id="email-subject" class="form-control email-subject" placeholder="Subject" required>
+        </div>
+        
+        <div class="form-group">
+            <textarea id="email-body" class="form-control email-body" placeholder="Write your email here..." required></textarea>
+        </div>
+        
+        <div class="email-actions">
+            <button type="submit" class="btn">
+                Send Email
+                <span class="spinner hidden"></span>
+            </button>
+            <div class="tone-analyze-info">
+                As you type, your email tone will be analyzed in real-time
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="tone-container" class="tone-container hidden">
+    <div class="tone-header">
+        <h2 class="tone-title">Tone Analysis</h2>
+    </div>
+    
+    <div class="tone-result">
+        <span class="tone-label">Detected Tone:</span>
+        <span id="tone-value" class="tone-value tone-friendly">Friendly</span>
+    </div>
+    
+    <div id="tone-feedback" class="tone-feedback">
+        Your email tone will be analyzed here.
+    </div>
+</div>
+{% endblock %} 

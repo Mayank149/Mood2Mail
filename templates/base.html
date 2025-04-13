@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mood2Mail - Email Tone Analyzer{% endblock %}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/logo.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    {% block header %}
+    <header class="header">
+        <div class="container">
+            <div class="navbar">
+                <a href="/" class="logo">
+                    <div class="logo-icon"></div>
+                    <span class="logo-text">Mood2Mail</span>
+                </a>
+                {% if session.get('email') %}
+                <div class="user-info">
+                    <span id="user-email" class="user-email">{{ session.get('email') }}</span>
+                    <a href="{{ url_for('logout') }}" id="logout-btn" class="logout-btn">Logout</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+    {% endblock %}
+
+    <main class="main-content">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html> 

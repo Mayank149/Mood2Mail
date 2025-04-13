@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Mood2Mail{% endblock %}
+
+{% block header %}
+<!-- No header on login page -->
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-header">
+        <h1 class="auth-title">Mood2Mail</h1>
+        <p class="auth-subtitle">Analyze and improve your email tone before sending</p>
+    </div>
+    
+    <form id="login-form" method="POST" action="/login">
+        <div class="form-group">
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
+        </div>
+        
+        <button type="submit" class="btn btn-block">Get Started</button>
+    </form>
+</div>
+{% endblock %} 
