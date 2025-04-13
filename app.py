@@ -14,6 +14,18 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
+# Update email configuration from environment variables if available
+if os.environ.get('SMTP_SERVER'):
+    EMAIL_CONFIG['SMTP_SERVER'] = os.environ.get('SMTP_SERVER')
+if os.environ.get('SMTP_PORT'):
+    EMAIL_CONFIG['SMTP_PORT'] = int(os.environ.get('SMTP_PORT'))
+if os.environ.get('EMAIL_ADDRESS'):
+    EMAIL_CONFIG['EMAIL_ADDRESS'] = os.environ.get('EMAIL_ADDRESS')
+if os.environ.get('EMAIL_PASSWORD'):
+    EMAIL_CONFIG['EMAIL_PASSWORD'] = os.environ.get('EMAIL_PASSWORD')
+if os.environ.get('USE_TLS') is not None:
+    EMAIL_CONFIG['USE_TLS'] = os.environ.get('USE_TLS').lower() == 'true'
+
 app = Flask(__name__)
 # Use environment variable for secret key if available
 app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24))
@@ -71,8 +83,9 @@ def settings():
     if 'email' not in session:
         return redirect(url_for('login'))
     
-    # You can define admin emails here
-    admin_emails = ['mood2mailsender@gmail.com']  # Add your admin email address here
+    # Get admin emails from environment variable or use default
+    admin_email = os.environ.get('ADMIN_EMAIL', 'mood2mailsender@gmail.com')
+    admin_emails = [admin_email]
     
     # Check if the current user is an admin
     if session['email'] not in admin_emails:
@@ -91,8 +104,9 @@ def save_settings():
     if 'email' not in session:
         return redirect(url_for('login'))
     
-    # You can define admin emails here
-    admin_emails = ['mood2mailsender@gmail.com']  # Add your admin email address here
+    # Get admin emails from environment variable or use default
+    admin_email = os.environ.get('ADMIN_EMAIL', 'mood2mailsender@gmail.com')
+    admin_emails = [admin_email]
     
     # Check if the current user is an admin
     if session['email'] not in admin_emails:

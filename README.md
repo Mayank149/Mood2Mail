@@ -60,16 +60,35 @@ Mood2Mail is an intelligent email tone analyzer and composition tool that helps 
 
 3. **Set Environment Variables**:
    - In the Render dashboard, go to "Environment" tab and add:
-     - `SECRET_KEY`: a secure random string
-     - Any other configuration variables you need
+     - `SECRET_KEY`: a secure random string (e.g., generate with `python -c "import secrets; print(secrets.token_hex(24))"`)
+     - `SMTP_SERVER`: your SMTP server (e.g., `smtp.gmail.com`)
+     - `SMTP_PORT`: your SMTP port (e.g., `587` for Gmail with TLS)
+     - `EMAIL_ADDRESS`: your sender email address
+     - `EMAIL_PASSWORD`: your app password (for Gmail, generate at https://myaccount.google.com/apppasswords)
+     - `USE_TLS`: `true` or `false` (typically `true` for Gmail)
+     - `ADMIN_EMAIL`: your admin email address to access settings
 
 4. **Deploy**:
    - Click "Create Web Service"
    - Render will automatically build and deploy your application
 
-5. **Configure Email Settings**:
-   - After deployment, log in to your application using your admin email
-   - Access the Settings page to configure the email sending service
+5. **First Time Setup**:
+   - Log in to your application using your admin email (the one you set in `ADMIN_EMAIL`)
+   - If you've properly set all environment variables, the email functionality should work immediately
+
+### Important Notes for Deployment
+
+1. **Email Configuration**: 
+   - When deployed on Render, the application will use the environment variables for email settings
+   - You don't need to configure them through the application's settings page
+
+2. **Security**:
+   - Never commit your email password or app password to GitHub
+   - Always use environment variables for sensitive information
+
+3. **Free Tier Limitations**:
+   - On Render's free tier, your service will spin down after periods of inactivity
+   - The first request after inactivity may take 30-45 seconds to respond
 
 ## Usage
 
