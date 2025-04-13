@@ -3,6 +3,11 @@
 # Keep the example file
 !.env.example
 
+# Configuration with sensitive data
+config.py
+# But keep the example
+!config.example.py
+
 # Python cache files
 __pycache__/
 *.py[cod]

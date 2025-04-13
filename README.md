@@ -32,15 +32,27 @@ Mood2Mail is an intelligent email tone analyzer and composition tool that helps 
    ```
 
 3. Configure email settings:
-   - Open `config.py` and update the email configuration
+   - Copy `config.example.py` to `config.py`:
+     ```
+     cp config.example.py config.py
+     ```
+   - Edit `config.py` and update the email configuration
    - For Gmail, you'll need to create an App Password
 
-4. Run the application:
+4. Set up environment variables (optional):
+   - Copy `.env.example` to `.env`:
+     ```
+     cp .env.example .env
+     ```
+   - Edit `.env` with your specific settings
+   - This is an alternative to updating config.py
+
+5. Run the application:
    ```
    python app.py
    ```
 
-5. Access the application in your browser:
+6. Access the application in your browser:
    ```
    http://127.0.0.1:5000
    ```
