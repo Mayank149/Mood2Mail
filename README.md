@@ -28,7 +28,7 @@ Mood2Mail is an intelligent email tone analyzer and composition tool that helps 
 
 2. Install the required dependencies:
    ```
-   pip install flask joblib numpy scikit-learn
+   pip install -r requirements.txt
    ```
 
 3. Configure email settings:
@@ -44,6 +44,32 @@ Mood2Mail is an intelligent email tone analyzer and composition tool that helps 
    ```
    http://127.0.0.1:5000
    ```
+
+## Deployment on Render
+
+1. **Create a new Web Service on Render**:
+   - Sign up/log in to [Render](https://render.com)
+   - Click "New +" and select "Web Service"
+   - Connect to your GitHub repository
+
+2. **Configure the Web Service**:
+   - Name: `mood2mail` (or your preferred name)
+   - Environment: `Python 3`
+   - Build Command: `pip install -r requirements.txt`
+   - Start Command: `gunicorn app:app`
+
+3. **Set Environment Variables**:
+   - In the Render dashboard, go to "Environment" tab and add:
+     - `SECRET_KEY`: a secure random string
+     - Any other configuration variables you need
+
+4. **Deploy**:
+   - Click "Create Web Service"
+   - Render will automatically build and deploy your application
+
+5. **Configure Email Settings**:
+   - After deployment, log in to your application using your admin email
+   - Access the Settings page to configure the email sending service
 
 ## Usage
 

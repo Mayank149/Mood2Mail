@@ -9,9 +9,14 @@ import json
 from datetime import timedelta
 import traceback
 from config import EMAIL_CONFIG
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)  # Secret key for session management
+# Use environment variable for secret key if available
+app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24))
 app.permanent_session_lifetime = timedelta(days=7)  # Session lasts for 7 days
 
 # Load the pre-trained model and vectorizer
@@ -290,4 +295,6 @@ def send_email():
         return jsonify({'error': f'Failed to send email: {str(e)}'}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Use PORT environment variable if available (for Render deployment)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
