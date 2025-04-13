@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Email Settings - Mood2Mail{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-header">
+        <h1 class="auth-title">Email Settings</h1>
+        <p class="auth-subtitle">Configure your email sending credentials</p>
+    </div>
+    
+    {% if saved %}
+    <div class="alert alert-success">
+        Settings saved successfully!
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <div class="alert alert-danger">
+        {{ error }}
+    </div>
+    {% endif %}
+    
+    <form id="settings-form" method="POST" action="{{ url_for('save_settings') }}">
+        <div class="form-group">
+            <label for="smtp_server" class="form-label">SMTP Server</label>
+            <input type="text" id="smtp_server" name="smtp_server" class="form-control" value="{{ config.get('SMTP_SERVER', 'smtp.gmail.com') }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="smtp_port" class="form-label">SMTP Port</label>
+            <input type="number" id="smtp_port" name="smtp_port" class="form-control" value="{{ config.get('SMTP_PORT', 587) }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="email_address" class="form-label">Email Address</label>
+            <input type="email" id="email_address" name="email_address" class="form-control" value="{{ config.get('EMAIL_ADDRESS', '') }}" required>
+            <small class="form-text text-muted">This should be your Gmail address</small>
+        </div>
+        
+        <div class="form-group">
+            <label for="email_password" class="form-label">App Password</label>
+            <input type="password" id="email_password" name="email_password" class="form-control" value="{{ config.get('EMAIL_PASSWORD', '') }}" required>
+            <small class="form-text text-muted">
+                <strong>Note:</strong> For Gmail, this is NOT your regular password. 
+                <a href="https://myaccount.google.com/apppasswords" target="_blank">Create an App Password</a> 
+                after enabling 2-Step Verification.
+            </small>
+        </div>
+        
+        <div class="form-group">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="use_tls" {% if config.get('USE_TLS', True) %}checked{% endif %}> Use TLS (recommended)
+                </label>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <button type="submit" class="btn btn-block">Save Settings</button>
+        </div>
+        
+        <div class="mt-3 text-center">
+            <a href="{{ url_for('compose') }}" class="btn btn-outline">Back to Compose</a>
+        </div>
+    </form>
+</div>
+{% endblock %} 

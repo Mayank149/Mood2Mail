@@ -6,6 +6,9 @@
 <div class="email-container">
     <div class="email-header">
         <h2 class="email-title">Compose Email</h2>
+        {% if session.get('email') in ['mood2mailsender@gmail.com'] %}
+        <a href="{{ url_for('settings') }}" class="btn btn-outline btn-sm">Email Settings</a>
+        {% endif %}
     </div>
     
     <form id="email-form">
