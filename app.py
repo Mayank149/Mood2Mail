@@ -8,8 +8,20 @@ from email.mime.multipart import MIMEMultipart
 import json
 from datetime import timedelta
 import traceback
-from config import EMAIL_CONFIG
 from dotenv import load_dotenv
+
+# Define default email configuration
+try:
+    from config import EMAIL_CONFIG
+except ImportError:
+    # Default configuration if config.py is missing
+    EMAIL_CONFIG = {
+        'SMTP_SERVER': 'smtp.gmail.com',
+        'SMTP_PORT': 587,
+        'EMAIL_ADDRESS': '',
+        'EMAIL_PASSWORD': '',
+        'USE_TLS': True
+    }
 
 # Load environment variables
 load_dotenv()
