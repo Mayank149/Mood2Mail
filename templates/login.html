@@ -7,10 +7,17 @@
 {% endblock %}
 
 {% block content %}
-<div class="auth-container">
+<div class="auth-container animate-on-load">
     <div class="auth-header">
         <h1 class="auth-title">Mood2Mail</h1>
         <p class="auth-subtitle">Analyze and improve your email tone before sending</p>
+        <div class="mood-icons">
+            <span class="mood-icon mood-friendly" title="Friendly">😊</span>
+            <span class="mood-icon mood-formal" title="Formal">🧐</span>
+            <span class="mood-icon mood-aggressive" title="Aggressive">😠</span>
+            <span class="mood-icon mood-anxious" title="Anxious">😰</span>
+            <span class="mood-icon mood-passive" title="Passive">😶</span>
+        </div>
     </div>
     
     <form id="login-form" method="POST" action="/login">
@@ -21,5 +28,56 @@
         
         <button type="submit" class="btn btn-block">Get Started</button>
     </form>
+    
+    <div class="auth-footer">
+        <p>Your emails, perfected by AI.</p>
+    </div>
 </div>
+
+<style>
+    .mood-icons {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        gap: 15px;
+    }
+    
+    .mood-icon {
+        font-size: 24px;
+        animation: float 3s ease-in-out infinite;
+        cursor: default;
+        transition: transform 0.3s ease;
+    }
+    
+    .mood-icon:hover {
+        transform: scale(1.2);
+    }
+    
+    .mood-friendly {
+        animation-delay: 0s;
+    }
+    
+    .mood-formal {
+        animation-delay: 0.6s;
+    }
+    
+    .mood-aggressive {
+        animation-delay: 1.2s;
+    }
+    
+    .mood-anxious {
+        animation-delay: 1.8s;
+    }
+    
+    .mood-passive {
+        animation-delay: 2.4s;
+    }
+    
+    .auth-footer {
+        text-align: center;
+        margin-top: 30px;
+        color: #666;
+        font-style: italic;
+    }
+</style>
 {% endblock %} 

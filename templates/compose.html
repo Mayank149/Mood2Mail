@@ -3,7 +3,7 @@
 {% block title %}Compose Email - Mood2Mail{% endblock %}
 
 {% block content %}
-<div class="email-container">
+<div class="email-container animate-on-load">
     <div class="email-header">
         <h2 class="email-title">Compose Email</h2>
         {% if session.get('email') in ['mood2mailsender@gmail.com'] %}
@@ -30,13 +30,20 @@
                 <span class="spinner hidden"></span>
             </button>
             <div class="tone-analyze-info">
-                As you type, your email tone will be analyzed in real-time
+                <span class="tone-status">As you type, your email tone will be analyzed in real-time</span>
+                <div class="mood-indicator">
+                    <span class="mood-icon mood-friendly" title="Friendly">😊</span>
+                    <span class="mood-icon mood-formal" title="Formal">🧐</span>
+                    <span class="mood-icon mood-aggressive" title="Aggressive">😠</span>
+                    <span class="mood-icon mood-anxious" title="Anxious">😰</span>
+                    <span class="mood-icon mood-passive" title="Passive">😶</span>
+                </div>
             </div>
         </div>
     </form>
 </div>
 
-<div id="tone-container" class="tone-container hidden">
+<div id="tone-container" class="tone-container hidden animate-on-load">
     <div class="tone-header">
         <h2 class="tone-title">Tone Analysis</h2>
     </div>
@@ -49,5 +56,200 @@
     <div id="tone-feedback" class="tone-feedback">
         Your email tone will be analyzed here.
     </div>
+    
+    <div class="tone-tips">
+        <h3>Tone Tips:</h3>
+        <ul id="tone-tips-list">
+            <li>Use clear and concise language</li>
+            <li>Consider your audience when writing</li>
+            <li>Review your email before sending</li>
+        </ul>
+    </div>
 </div>
+
+<style>
+    .mood-indicator {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        gap: 15px;
+    }
+    
+    .mood-icon {
+        font-size: 20px;
+        opacity: 0.3;
+        transition: all 0.3s ease;
+        cursor: default;
+    }
+    
+    .mood-icon:hover {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    
+    .mood-icon.active {
+        opacity: 1;
+        transform: scale(1.2);
+        animation: pulse 1s infinite;
+    }
+    
+    .tone-status {
+        display: block;
+        text-align: center;
+        color: #e0e0e0;
+    }
+    
+    .tone-tips {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: var(--border-radius);
+        color: #000000;
+    }
+    
+    .tone-tips h3 {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        color: var(--primary-color);
+    }
+    
+    .tone-tips ul {
+        padding-left: 20px;
+        color: #000000;
+    }
+    
+    .tone-tips li {
+        margin-bottom: 5px;
+    }
+    
+    /* Enhanced email body focus effect */
+    .email-body:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(126, 87, 194, 0.3);
+        transform: translateY(-2px);
+    }
+    
+    /* Enhanced button effects */
+    .btn:active {
+        transform: translateY(1px);
+    }
+    
+    /* Tone-specific feedback styling */
+    .tone-feedback-friendly {
+        border-left-color: var(--friendly-color);
+    }
+    
+    .tone-feedback-aggressive {
+        border-left-color: var(--aggressive-color);
+    }
+    
+    .tone-feedback-formal {
+        border-left-color: var(--formal-color);
+    }
+    
+    .tone-feedback-anxious {
+        border-left-color: var(--anxious-color);
+    }
+    
+    .tone-feedback-passive {
+        border-left-color: var(--passive-color);
+    }
+</style>
+
+<script>
+    // This script will be added to the page to enhance the UI
+    document.addEventListener('DOMContentLoaded', function() {
+        // Function to highlight the mood icon based on detected tone
+        window.highlightMoodIcon = function(tone) {
+            // Reset all icons
+            document.querySelectorAll('.mood-icon').forEach(icon => {
+                icon.classList.remove('active');
+            });
+            
+            // Highlight the matching icon
+            const toneClass = tone.toLowerCase();
+            const activeIcon = document.querySelector(`.mood-icon.mood-${toneClass}`);
+            if (activeIcon) {
+                activeIcon.classList.add('active');
+            }
+        };
+        
+        // Function to update tone tips based on detected tone
+        window.updateToneTips = function(tone) {
+            const tipsList = document.getElementById('tone-tips-list');
+            if (!tipsList) return;
+            
+            let tips = [];
+            
+            switch(tone.toLowerCase()) {
+                case 'friendly':
+                    tips = [
+                        "Keep your conversational tone to build rapport",
+                        "Use personal pronouns like 'you' and 'we'",
+                        "End with a positive closing statement"
+                    ];
+                    break;
+                case 'formal':
+                    tips = [
+                        "Maintain professional language throughout",
+                        "Avoid contractions (use 'cannot' instead of 'can't')",
+                        "Use complete sentences and proper structure"
+                    ];
+                    break;
+                case 'aggressive':
+                    tips = [
+                        "Consider softening your language",
+                        "Take a moment to reflect on your tone",
+                        "Focus on the issue, not the person"
+                    ];
+                    break;
+                case 'anxious':
+                    tips = [
+                        "Be more direct with your requests",
+                        "Reduce apologetic language",
+                        "State your needs clearly and confidently"
+                    ];
+                    break;
+                case 'passive':
+                    tips = [
+                        "Use more direct language",
+                        "State your opinion clearly",
+                        "Remove filler words that reduce impact"
+                    ];
+                    break;
+                default:
+                    tips = [
+                        "Use clear and concise language",
+                        "Consider your audience when writing",
+                        "Review your email before sending"
+                    ];
+            }
+            
+            // Update the tips list
+            tipsList.innerHTML = '';
+            tips.forEach(tip => {
+                const li = document.createElement('li');
+                li.textContent = tip;
+                tipsList.appendChild(li);
+            });
+            
+            // Update tone feedback styling
+            const toneFeedback = document.getElementById('tone-feedback');
+            if (toneFeedback) {
+                toneFeedback.className = 'tone-feedback';
+                toneFeedback.classList.add(`tone-feedback-${tone.toLowerCase()}`);
+            }
+        };
+        
+        // Update the existing analyzeEmailTone function to call our new UI enhancements
+        const originalUpdateToneUI = window.updateToneUI;
+        if (typeof originalUpdateToneUI === 'function') {
+            window.updateToneUI = function(tone, feedback) {
+                originalUpdateToneUI(tone, feedback);
+                highlightMoodIcon(tone);
+                updateToneTips(tone);
+            };
+        }
+    });
+</script>
 {% endblock %} 
